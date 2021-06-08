@@ -1,0 +1,21 @@
+transports:
+  #Kerning City to CBD
+  - enabled:               true
+    source:                103000000
+    departure:             540010100
+    transport:             540010101
+    arrival:               540010000
+    destination:           540000000
+    open_gate_duration:    240000
+    closed_gate_duration:  60000
+    ride_duration:         60000
+  #CBD to Kerning City
+  - enabled:               true
+    source:                540000000
+    departure:             540010001
+    transport:             540010002
+    arrival:               103000000
+    destination:           103000000
+    open_gate_duration:    240000
+    closed_gate_duration:  60000
+    ride_duration:         60000
