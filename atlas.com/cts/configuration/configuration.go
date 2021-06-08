@@ -24,7 +24,7 @@ type TransportConfiguration struct {
 	Enabled            bool   `yaml:"enabled"`
 	Source             uint32 `yaml:"source"`
 	Departure          uint32 `yaml:"departure"`
-	Transport          uint32 `yaml:"transport"`
+	Transport          []uint32 `yaml:"transport"`
 	Arrival            uint32 `yaml:"arrival"`
 	Destination        uint32 `yaml:"destination"`
 	OpenGateDuration   uint32 `yaml:"open_gate_duration"`

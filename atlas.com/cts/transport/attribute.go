@@ -14,7 +14,7 @@ type attributes struct {
 	Enabled     bool   `json:"enabled"`
 	Source      uint32 `json:"source"`
 	Departure   uint32 `json:"departure"`
-	Transport   uint32 `json:"transport"`
+	Transport   []uint32 `json:"transport"`
 	Arrival     uint32 `json:"arrival"`
 	Destination uint32 `json:"destination"`
 }
