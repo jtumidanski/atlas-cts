@@ -1,7 +1,7 @@
 package requests
 
 import (
-	"atlas-ncs/rest/attributes"
+	"atlas-cts/json"
 	"net/http"
 )
 
@@ -20,7 +20,7 @@ func Get(url string, resp interface{}) error {
 }
 
 func processResponse(r *http.Response, rb interface{}) error {
-	err := attributes.FromJSON(rb, r.Body)
+	err := json.FromJSON(rb, r.Body)
 	if err != nil {
 		return err
 	}
