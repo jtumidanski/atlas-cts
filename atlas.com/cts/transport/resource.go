@@ -9,6 +9,13 @@ import (
 	"strconv"
 )
 
+
+func InitResource(router *mux.Router, l logrus.FieldLogger, c *configuration.Configuration) {
+	tr := router.PathPrefix("/transports").Subrouter()
+	tr.HandleFunc("/", HandleGetTransport(l, c)).Queries("source", "{source}", "destination", "{destination}").Methods(http.MethodGet)
+	tr.HandleFunc("/", HandleGetTransports(l, c)).Methods(http.MethodGet)
+}
+
 func HandleGetTransports(l logrus.FieldLogger, c *configuration.Configuration) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		transports, err := GetAll(l, c)()
