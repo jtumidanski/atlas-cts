@@ -3,6 +3,7 @@ package transport
 import (
 	"atlas-cts/configuration"
 	"atlas-cts/json"
+	"atlas-cts/model"
 	"atlas-cts/rest"
 	"github.com/gorilla/mux"
 	"github.com/opentracing/opentracing-go"
@@ -31,7 +32,7 @@ func registerGetTransports(l logrus.FieldLogger, c *configuration.Configuration)
 func handleGetTransports(l logrus.FieldLogger, c *configuration.Configuration) func(span opentracing.Span) http.HandlerFunc {
 	return func(span opentracing.Span) http.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request) {
-			transports, err := GetAll(l, c)()
+			transports, err := AllModelProvider(l)()
 			if err != nil {
 				l.WithError(err).Errorf("Unable to get transports configured for service.")
 				w.WriteHeader(http.StatusInternalServerError)
@@ -61,7 +62,7 @@ func registerGetTransport(l logrus.FieldLogger, c *configuration.Configuration) 
 func handleGetTransport(l logrus.FieldLogger, c *configuration.Configuration) func(span opentracing.Span) http.HandlerFunc {
 	return func(span opentracing.Span) http.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request) {
-			filters := make([]Filter, 0)
+			filters := make([]model.Filter[Model], 0)
 			if val, ok := mux.Vars(r)["source"]; ok {
 				source, err := strconv.Atoi(val)
 				if err != nil {
@@ -81,7 +82,7 @@ func handleGetTransport(l logrus.FieldLogger, c *configuration.Configuration) fu
 				filters = append(filters, MatchDestination(uint32(destination)))
 			}
 
-			transports, err := GetFiltered(l, c)(filters...)()
+			transports, err := model.FilteredProvider[Model](AllModelProvider(l), filters...)()
 			if err != nil {
 				l.WithError(err).Errorf("Unable to get transports configured for service.")
 				w.WriteHeader(http.StatusInternalServerError)
@@ -102,7 +103,7 @@ func handleGetTransport(l logrus.FieldLogger, c *configuration.Configuration) fu
 	}
 }
 
-func makeDataBody(t *Model) dataBody {
+func makeDataBody(t Model) dataBody {
 	return dataBody{
 		Id:   "",
 		Type: "",
@@ -113,6 +114,7 @@ func makeDataBody(t *Model) dataBody {
 			Transport:   t.Transport(),
 			Arrival:     t.Arrival(),
 			Destination: t.Destination(),
+			State:       t.State(),
 		},
 	}
 }

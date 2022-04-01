@@ -7,6 +7,7 @@ type Model struct {
 	transport   []uint32
 	arrival     uint32
 	destination uint32
+	state       string
 }
 
 func (m Model) Enabled() bool {
@@ -31,4 +32,20 @@ func (m Model) Arrival() uint32 {
 
 func (m Model) Destination() uint32 {
 	return m.destination
+}
+
+func (m Model) State() string {
+	return m.state
+}
+
+func (m Model) updateState(state string) Model {
+	return Model{
+		enabled:     m.enabled,
+		source:      m.source,
+		departure:   m.departure,
+		transport:   m.transport,
+		arrival:     m.arrival,
+		destination: m.destination,
+		state:       state,
+	}
 }

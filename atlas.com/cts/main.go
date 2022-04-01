@@ -2,8 +2,10 @@ package main
 
 import (
 	"atlas-cts/configuration"
+	"atlas-cts/kafka"
 	"atlas-cts/logger"
 	"atlas-cts/rest"
+	"atlas-cts/tasks"
 	"atlas-cts/tracing"
 	"atlas-cts/transport"
 	"context"
@@ -15,6 +17,7 @@ import (
 )
 
 const serviceName = "atlas-cts"
+const consumerGroupId = "Character Transport Service"
 
 func main() {
 	l := logger.CreateLogger(serviceName)
@@ -39,8 +42,13 @@ func main() {
 		l.WithError(err).Errorf("Unable to load service configuration.")
 		return
 	}
+	transport.InitializeRegistry(config)
 
 	rest.CreateService(l, config, ctx, wg, "/ms/cts", transport.InitResource)
+
+	kafka.CreateConsumers(l, ctx, wg, transport.StatusConsumer(consumerGroupId))
+
+	go tasks.Register(transport.NewStateEvaluationTask(l, config, 5000))
 
 	// trap sigterm or interrupt and gracefully shutdown the server
 	c := make(chan os.Signal, 1)

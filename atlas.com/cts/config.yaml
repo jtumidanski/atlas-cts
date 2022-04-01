@@ -38,6 +38,7 @@ transports:
     destination:           101000000
     open_gate_duration:    240000
     closed_gate_duration:  60000
+    ride_duration:         600000
   #Orbis to Leafre
   - enabled:               true
     source:                200000000
@@ -47,7 +48,6 @@ transports:
     destination:           240000000
     open_gate_duration:    240000
     closed_gate_duration:  60000
-    ride_duration:         600000
     ride_duration:         300000
   #Leafre to Orbis
   - enabled:               true
@@ -58,5 +58,4 @@ transports:
     destination:           200000000
     open_gate_duration:    240000
     closed_gate_duration:  60000
-    ride_duration:         600000
     ride_duration:         300000

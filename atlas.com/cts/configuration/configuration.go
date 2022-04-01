@@ -21,15 +21,15 @@ type Configuration struct {
 }
 
 type TransportConfiguration struct {
-	Enabled            bool   `yaml:"enabled"`
-	Source             uint32 `yaml:"source"`
-	Departure          uint32 `yaml:"departure"`
+	Enabled            bool     `yaml:"enabled"`
+	Source             uint32   `yaml:"source"`
+	Departure          uint32   `yaml:"departure"`
 	Transport          []uint32 `yaml:"transport"`
-	Arrival            uint32 `yaml:"arrival"`
-	Destination        uint32 `yaml:"destination"`
-	OpenGateDuration   uint32 `yaml:"open_gate_duration"`
-	ClosedGateDuration uint32 `yaml:"closed_gate_duration"`
-	RideDuration       uint32 `yaml:"ride_duration"`
+	Arrival            uint32   `yaml:"arrival"`
+	Destination        uint32   `yaml:"destination"`
+	OpenGateDuration   uint32   `yaml:"open_gate_duration"`
+	ClosedGateDuration uint32   `yaml:"closed_gate_duration"`
+	RideDuration       uint32   `yaml:"ride_duration"`
 }
 
 func (c *Configurator) GetConfiguration() (*Configuration, error) {
